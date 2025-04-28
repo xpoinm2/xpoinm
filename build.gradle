@@ -1,28 +1,27 @@
 plugins {
-	id 'fabric-loom' version '1.3.5'
+	id 'fabric-loom' version '1.10-SNAPSHOT'
 	id 'maven-publish'
 }
 
 version = project.mod_version
-group   = project.maven_group
+group = project.maven_group
 
 base {
 	archivesName = project.archives_base_name
 }
 
 repositories {
-	// при необходимости дополнительные репозитории
+	// Loom сам подставит Maven-репозитории Fabric/Minecraft
+	// Здесь оставляйте, если нужны сторонние репозитории для других модов
 }
 
 dependencies {
-	minecraft        "com.mojang:minecraft:${project.minecraft_version}"
-	mappings          "net.fabricmc:yarn:${project.yarn_mappings}:v2"
+	// версии берутся из gradle.properties
+	minecraft "com.mojang:minecraft:${project.minecraft_version}"
+	mappings  "net.fabricmc:yarn:${project.yarn_mappings}:v2"
 	modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
 	modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
 }
-
-
-
 
 processResources {
 	inputs.property "version", project.version
@@ -32,7 +31,8 @@ processResources {
 }
 
 tasks.withType(JavaCompile).configureEach {
-	options.release = 17
+	// Подставьте 17, если у вас JDK17, или 21 для JDK21+
+	it.options.release = 17
 }
 
 java {
@@ -56,6 +56,6 @@ publishing {
 		}
 	}
 	repositories {
-		// Репозитории для публикации вашего артефакта (если потребуется)
+		// сюда можно добавить собственный Maven-репо для публикации
 	}
 }
