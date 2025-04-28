@@ -9,12 +9,12 @@ archivesBaseName = "xpoinm"
 
 repositories {
 	mavenCentral()
+	maven { url = "https://maven.fabricmc.net/" }
 }
 
 dependencies {
 	minecraft "com.mojang:minecraft:1.20.2"
-	mappings "net.fabricmc:yarn:1.20.2+build.1:v2"
-
+	mappings  "net.fabricmc:yarn:1.20.2+build.22:v2"               // <- make sure this matches your mappings line
 	modImplementation "net.fabricmc:fabric-loader:0.14.22"
 	modImplementation "net.fabricmc.fabric-api:fabric-api:0.91.6+1.20.2"
 }
@@ -23,6 +23,13 @@ java {
 	sourceCompatibility = JavaVersion.VERSION_17
 	targetCompatibility = JavaVersion.VERSION_17
 }
+
+minecraft {
+	version = "1.20.2"
+	loader  = "0.14.22"
+	mappings channel: "yarn", version: "1.20.2+build.22"  // <- yarn mappings
+}
+
 
 processResources {
 	inputs.property "version", project.version
