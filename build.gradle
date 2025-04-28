@@ -1,51 +1,54 @@
 plugins {
-	id 'fabric-loom' version '1.10-SNAPSHOT'
+	id 'fabric-loom' version '1.10.5'
 	id 'maven-publish'
 }
 
-version = project.mod_version
-group = project.maven_group
+group = project.maven_group       // задаётся в gradle.properties
+version = project.mod_version     // тоже в gradle.properties
 
 base {
-	archivesName = project.archives_base_name
+	// исходное имя архива берётся из свойства archives_base_name
+	archivesName = project.archives_base_name // комментарии — через //, а не #
 }
 
 repositories {
-	// Loom сам подставит Maven-репозитории Fabric/Minecraft
-	// Здесь оставляйте, если нужны сторонние репозитории для других модов
+	mavenCentral()
+	maven {
+		name = "Fabric"
+		url  = uri("https://maven.fabricmc.net/")
+	}
+}
+
+loom {
+	mixin {
+		// имя вашего рефмапа
+		defaultRefmapName = "${project.archives_base_name}.refmap.json"
+	}
+	// разделяем sourceSet'ы для клиента и сервера
+	splitEnvironmentSourceSets()
+
+	runs {
+		client {
+			name = "Client"
+			client()
+			runDir = "run"
+		}
+		// при необходимости добавьте server/dataGen и прочие
+	}
 }
 
 dependencies {
-	// версии берутся из gradle.properties
-	minecraft "com.mojang:minecraft:${project.minecraft_version}"
-	mappings  "net.fabricmc:yarn:${project.yarn_mappings}:v2"
+	// основные зависимости Fabric
+	minecraft    "com.mojang:minecraft:${project.minecraft_version}"
+	mappings     "net.fabricmc:yarn:${project.yarn_mappings}:v2"
 	modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
 	modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
 }
 
-processResources {
-	inputs.property "version", project.version
-	filesMatching("fabric.mod.json") {
-		expand "version": inputs.properties.version
-	}
-}
-
-tasks.withType(JavaCompile).configureEach {
-	// Подставьте 17, если у вас JDK17, или 21 для JDK21+
-	it.options.release = 17
-}
-
 java {
-	withSourcesJar()
+	// Minecraft 1.20.2 требует Java 17
 	sourceCompatibility = JavaVersion.VERSION_17
 	targetCompatibility = JavaVersion.VERSION_17
-}
-
-jar {
-	inputs.property "archivesName", project.base.archivesName
-	from("LICENSE") {
-		rename { "${it}_${inputs.properties.archivesName}" }
-	}
 }
 
 publishing {
@@ -56,6 +59,13 @@ publishing {
 		}
 	}
 	repositories {
-		// сюда можно добавить собственный Maven-репо для публикации
+		maven {
+			name = "GitHubPackages"
+			url  = uri("https://maven.pkg.github.com/xpoinm2/xpoinm")
+			credentials {
+				username = project.findProperty("gpr.user") ?: System.getenv("GITHUB_ACTOR")
+				password = project.findProperty("gpr.key")  ?: System.getenv("GITHUB_TOKEN")
+			}
+		}
 	}
 }
