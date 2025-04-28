@@ -1,39 +1,37 @@
-plugins {
-	id 'fabric-loom' version '1.10.5'
-	id 'maven-publish'
-}
-
-group = "com.xpoinm"
-version = "1.0.0"
-archivesBaseName = "xpoinm"
+group = 'com.xpoinm'
+version = '1.0.0'
 
 repositories {
 	mavenCentral()
-	maven { url = "https://maven.fabricmc.net/" }
+	maven { url 'https://maven.fabricmc.net/' }
 }
 
 dependencies {
+	// the “minecraft” dependency:
 	minecraft "com.mojang:minecraft:1.20.2"
-	mappings  "net.fabricmc:yarn:1.20.2+build.22:v2"               // <- make sure this matches your mappings line
+	// the Yarn mappings
+	mappings    "net.fabricmc:yarn:1.20.2+build.1:v2"
+	// loader + API
 	modImplementation "net.fabricmc:fabric-loader:0.14.22"
 	modImplementation "net.fabricmc.fabric-api:fabric-api:0.91.6+1.20.2"
 }
 
 java {
-	sourceCompatibility = JavaVersion.VERSION_17
-	targetCompatibility = JavaVersion.VERSION_17
+	toolchain { languageVersion = JavaLanguageVersion.of(17) }
 }
 
-minecraft {
-	version = "1.20.2"
-	loader  = "0.14.22"
-	mappings channel: "yarn", version: "1.20.2+build.22"  // <- yarn mappings
-}
-
-
-processResources {
-	inputs.property "version", project.version
-	filesMatching("fabric.mod.json") {
-		expand "version": project.version
+loom {
+	// mixin refmap name, runs, etc.
+	mixin {
+		defaultRefmapName = "xpoinm.refmap.json"
+	}
+	runs {
+		client {
+			workingDirectory project.file('run')
+			// additionalSourceSets = [sourceSets.main]  // if you have extra generated code
+		}
+		server {
+			// similar config for a dedicated‐server run if you need it
+		}
 	}
 }
