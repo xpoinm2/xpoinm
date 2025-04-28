@@ -3,68 +3,30 @@ plugins {
 	id 'maven-publish'
 }
 
-group = project.maven_group       // задаётся в gradle.properties
-version = project.mod_version     // тоже в gradle.properties
-
-base {
-	// исходное имя архива берётся из свойства archives_base_name
-	archivesName = project.archives_base_name // комментарии — через //, а не #
-}
+group = "com.xpoinm"
+version = "1.0.0"
+archivesBaseName = "xpoinm"
 
 repositories {
 	mavenCentral()
-	maven {
-		name = "Fabric"
-		url  = uri("https://maven.fabricmc.net/")
-	}
-}
-
-loom {
-	mixin {
-		// имя вашего рефмапа
-		defaultRefmapName = "${project.archives_base_name}.refmap.json"
-	}
-	// разделяем sourceSet'ы для клиента и сервера
-	splitEnvironmentSourceSets()
-
-	runs {
-		client {
-			name = "Client"
-			client()
-			runDir = "run"
-		}
-		// при необходимости добавьте server/dataGen и прочие
-	}
 }
 
 dependencies {
-	minecraft    "com.mojang:minecraft:${project.minecraft_version}"
-	mappings     "net.fabricmc:yarn:${project.yarn_mappings}:v2"
-	modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
-	modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
+	minecraft "com.mojang:minecraft:1.20.2"
+	mappings "net.fabricmc:yarn:1.20.2+build.1:v2"
+
+	modImplementation "net.fabricmc:fabric-loader:0.14.22"
+	modImplementation "net.fabricmc.fabric-api:fabric-api:0.91.6+1.20.2"
 }
 
 java {
-	// Minecraft 1.20.2 требует Java 17
 	sourceCompatibility = JavaVersion.VERSION_17
 	targetCompatibility = JavaVersion.VERSION_17
 }
 
-publishing {
-	publications {
-		create("mavenJava", MavenPublication) {
-			artifactId = project.archives_base_name
-			from components.java
-		}
-	}
-	repositories {
-		maven {
-			name = "GitHubPackages"
-			url  = uri("https://maven.pkg.github.com/xpoinm2/xpoinm")
-			credentials {
-				username = project.findProperty("gpr.user") ?: System.getenv("GITHUB_ACTOR")
-				password = project.findProperty("gpr.key")  ?: System.getenv("GITHUB_TOKEN")
-			}
-		}
+processResources {
+	inputs.property "version", project.version
+	filesMatching("fabric.mod.json") {
+		expand "version": project.version
 	}
 }

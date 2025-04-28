@@ -3,15 +3,10 @@
   "id": "xpoinm",
   "version": "${version}",
   "name": "Xpoinm Mod",
-  "description": "Ваше описание здесь",
-  "authors": ["ВашеИмя"],
-  "contact": {
-    "homepage": "https://github.com/xpoinm2/xpoinm",
-    "sources": "https://github.com/xpoinm2/xpoinm"
-  },
-  "license": "MIT",
-  "icon": "assets/xpoinm/icon.png",
-  "environment": "*",
+  "description": "Пример мода, отображающего статистику игрока",
+  "authors": [
+    "YourName"
+  ],
   "entrypoints": {
     "main": [
       "com.xpoinm.ExampleMod"
@@ -22,8 +17,7 @@
   },
   "depends": {
     "fabricloader": ">=0.14.22",
-    "minecraft": "~1.20.2",
-    "java": ">=17",
-    "fabric-api": "*"
+    "fabric": "*",
+    "minecraft": "1.20.2"
   }
 }
