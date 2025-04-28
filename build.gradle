@@ -1,8 +1,11 @@
 plugins {
-
-	id 'fabric-loom'
+	// указываем реально существующую версию из maven.fabricmc.net
+	id 'fabric-loom' version '1.9.2'
 	id 'java'
 }
+
+
+
 
 group = 'com.xpoinm'
 version = '1.0.0'
