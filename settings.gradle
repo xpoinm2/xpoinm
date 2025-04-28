@@ -1,8 +1,13 @@
 pluginManagement {
 	repositories {
 		gradlePluginPortal()
-		mavenCentral()
-		maven { url 'https://maven.fabricmc.net/' }
+		maven { url = 'https://maven.fabricmc.net/' }
+	}
+	resolutionStrategy {
+		eachPlugin {
+			if (requested.id.id == 'fabric-loom') {
+				useVersion("1.9")  // <-- смотрите релизы Fabric Loom
+			}
+		}
 	}
 }
-rootProject.name = 'fabric-example-mod'

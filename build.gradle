@@ -1,11 +1,13 @@
 plugins {
-	id 'fabric-loom' version '1.10.5'
+
+	id 'fabric-loom'
 	id 'java'
 }
 
 group = 'com.xpoinm'
 version = '1.0.0'
 
+// Java 17 toolchain
 java {
 	toolchain {
 		languageVersion = JavaLanguageVersion.of(17)
@@ -18,23 +20,22 @@ repositories {
 }
 
 dependencies {
-	// pull in the game jar
-	minecraft "com.mojang:minecraft:1.20.2"
-	// use Yarn mappings (v2) so you get names like PoseStack, InventoryScreen, etc.
-	mappings   "net.fabricmc:yarn:1.20.2+build.15:v2"
-	// Fabric loader and API
-	modImplementation "net.fabricmc:fabric-loader:0.14.22"
-	modImplementation "net.fabricmc.fabric-api:fabric-api:0.91.6+1.20.2"
+	// сам Minecraft
+	minecraft 'com.mojang:minecraft:1.20.2'
+	// Yarn-маппинги
+	mappings  'net.fabricmc:yarn:1.20.2+build.15:v2'
+	// Fabric Loader и API
+	modImplementation 'net.fabricmc:fabric-loader:0.14.22'
+	modImplementation 'net.fabricmc.fabric-api:fabric-api:0.91.0+1.20.2'
 }
 
-// now that Loom is applied, this extension will exist:
+// теперь блок minecraft { runs { … } } распознаётся
 minecraft {
 	runs {
 		client {
+			// точка входа для dev-клиента
 			clientMain = 'net.fabricmc.devlaunchinjector.Main'
-			// uncomment if you want a dedicated 'run' folder
-			// gameDirectory = file('run')
+			// при необходимости можно задать gameDirectory и прочее
 		}
-		// you can also define a server run here, etc.
 	}
 }
