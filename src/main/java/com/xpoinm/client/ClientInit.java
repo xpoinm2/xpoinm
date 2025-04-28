@@ -3,11 +3,14 @@ package com.xpoinm.client;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.xpoinm.client.screen.StatsScreen;
 import net.fabricmc.api.ClientModInitializer;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.client.screen.v1.ScreenEvents;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.screens.inventory.InventoryScreen;
 
+@Environment(EnvType.CLIENT)
 public class ClientInit implements ClientModInitializer {
     @Override
     public void onInitializeClient() {
