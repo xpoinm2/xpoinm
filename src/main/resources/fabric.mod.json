@@ -2,18 +2,9 @@
   "schemaVersion": 1,
   "id": "xpoinm",
   "version": "${version}",
-  "name": "Xpoinm Mod",
-  "description": "Пример мода, отображающего статистику игрока",
-  "authors": [
-    "YourName"
-  ],
   "entrypoints": {
-    "main": [
-      "com.xpoinm.ExampleMod"
-    ],
-    "client": [
-      "com.xpoinm.client.ClientInit"
-    ]
+    "main": ["com.xpoinm.ExampleMod"],
+    "client": ["com.xpoinm.client.ClientInit"]
   },
   "depends": {
     "fabricloader": ">=0.14.22",

@@ -1,11 +1,14 @@
 package com.xpoinm;
 
 import net.fabricmc.api.ModInitializer;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class ExampleMod implements ModInitializer {
+    public static final Logger LOGGER = LoggerFactory.getLogger("xpoinm");
+
     @Override
     public void onInitialize() {
-        // Здесь можно разместить код инициализации (сервер- и общая сторона)
-        System.out.println("[xpoinm] ExampleMod initialized!");
+        LOGGER.info("Hello Fabric world!");
     }
 }
